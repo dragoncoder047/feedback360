@@ -2,11 +2,11 @@
 
 #define FEEDBACK_PIN 14
 
-Feedback360 motor(NULL, FEEDBACK_PIN);
+Feedback360 motor;
 
 void setup() {
     pinMode(FEEDBACK_PIN, OUTPUT);
-    servo.attach(CONTROL_PIN);
+    motor.attach(NULL, FEEDBACK_PIN);
     Serial.begin(9600);
 }
 
