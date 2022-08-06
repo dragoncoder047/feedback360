@@ -13,7 +13,7 @@ void setup() {
 void loop() {
     motor.readPosition();
     Serial.println("Position\tSpeed");
-    Serial.print(motor.turns + motor.theta)
+    Serial.print(motor.position)
     Serial.write('\t');
     Serial.println(motor.speed);
     // spin the motor with your hands and see what happens

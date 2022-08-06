@@ -20,17 +20,21 @@ The data sheet from Parallax is included in the `extras/` folder.
 
 Detaches the internal `Servo` instance used to control the motor.
 
-### `void Feedback360::readPosition()`
+### `boolean Feedback360::readPosition()`
 
-Call this to read the encoder and update the position variables. As this library doesn't use interrupts, this call will block for the time of one cycle (usually around 1ms, but can be as long as 2ms on occasion).
+Call this to read the encoder and update the position variables. As this library doesn't use interrupts, this call will block for the time of one cycle, usually around 1100&micro;s, but can be as long as 2300&micro;s on occasion, and a maximum of 20ms (20000&micro;s) if the yellow wire got disconnected and `pulseIn` timed out. Returns true if position was successfully read; false if not.
 
 ### `double Feedback360::theta`
 
-Absolute position in fractions of a turn from zero. Always positive (i.e. $0\leq\text{theta}\lt 1$).
+Absolute angular position in fractions of a turn from zero. Always positive (i.e. $0\leq\text{theta}\lt 1$).
 
 ### `int32_t Feedback360::turns`
 
-Cumulative number of turns since the program started.
+Cumulative number of whole turns since the program started. You can write to this to "reset" the turns count, but be warned that doing this will cause a huge single-frame spike or dip in `speed` which may confuse an attached PID controller when regulating speed.
+
+### `double Feedback360::position`
+
+A convenience for accessing the full position (theta + turns). If you want to "reset" the turns count, write to `turns` instead, and this will automatically update.
 
 ### `double Feedback360::speed`
 
@@ -48,4 +52,4 @@ Sets the power applied to the motor using the provided `Servo` instance, mapping
 
 * 3\. Unlike other servos, in the Feedback 360 (or at least the one I tested on) there is a short delay between when the PWM value is changed by the microcontroller and when the motor actually responds to the change, so direct PID control of position was quite difficult. (Speed control was easier.)
 
-* 4\. If you need a continuous multiturn value for position (e.g. for a wheel on a robot) use `motor.turns + motor.theta`. They both increase in the same direction
+* 4\. Because it's an absolute encoder, 
