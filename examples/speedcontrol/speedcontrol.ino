@@ -21,7 +21,7 @@ void setup() {
 void loop() {
     motor.readPosition();
     double targetSpeed = map(analogRead(POT_PIN), 0, ANALOG_MAX, -2.0, 2.0);
-    double error = motor.speed - targetSpeed;
+    double error = targetSpeed - motor.speed;
     currentPower += error * 3 // Kp=3
     // no Ki or Kd
     motor.setPower(currentPower);
