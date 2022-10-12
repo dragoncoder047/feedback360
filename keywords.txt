@@ -1,4 +1,3 @@
 Feedback360 KEYWORD1
 readPosition    KEYWORD2
-feedback360Speed KEYWORD2
 setPower    KEYWORD2
